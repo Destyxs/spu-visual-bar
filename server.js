@@ -2591,6 +2591,10 @@ const HTML_PAGE = `<!DOCTYPE html>
           e.target.reset();
           closeAllModals();
           navigateTo('lobby');
+          if (!audioState.isPlaying && audioState.tracks.length > 0) {
+            hasAttemptedInitialAutoPlay = true;
+            playSelectedTrack(true);
+          }
         } catch (err) {
           showPopup('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้', 'เกิดข้อผิดพลาด');
         }
@@ -2676,7 +2680,7 @@ const HTML_PAGE = `<!DOCTYPE html>
       function onFirstInteract() {
         document.removeEventListener('pointerdown', onFirstInteract);
         document.removeEventListener('keydown', onFirstInteract);
-        if (state.table && state.table.mode === 'music') return;
+        if (state.currentView !== 'lobby') return;
         if (!audioState.isPlaying && audioState.tracks.length > 0) {
           playSelectedTrack(true);
         }
@@ -2695,7 +2699,7 @@ const HTML_PAGE = `<!DOCTYPE html>
           }
           renderSettingsModal();
 
-          if (!hasAttemptedInitialAutoPlay && audioState.tracks.length > 0) {
+          if (!hasAttemptedInitialAutoPlay && audioState.tracks.length > 0 && state.currentView === 'lobby') {
             hasAttemptedInitialAutoPlay = true;
             playSelectedTrack(true);
           }
