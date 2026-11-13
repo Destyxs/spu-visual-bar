@@ -2209,6 +2209,8 @@ const HTML_PAGE = `<!DOCTYPE html>
     }
 
     function destroyYoutubePlayer() {
+    const unmuteBtn = document.getElementById('safari-unmute-btn');
+  if (unmuteBtn) unmuteBtn.remove();
       if (state.ytPlayerInstance) {
         try {
           state.ytPlayerInstance.destroy();
@@ -2998,10 +3000,23 @@ const HTML_PAGE = `<!DOCTYPE html>
               },
               events: {
                 onReady: function (e) {
+                  window._ytTarget = e.target;
                   e.target.setVolume(state.ytLocalVolume);
                   e.target.playVideo();
+
+                  setTimeout(function () {
+                    if (e.target && typeof e.target.getPlayerState === 'function' && e.target.getPlayerState() !== 1) {
+                      e.target.mute();
+                      e.target.playVideo();
+                      showSafariUnmuteBtn();
+                    }
+                  }, 700);
                 },
                 onStateChange: function (e) {
+                  if (e.data === 1 && typeof e.target.isMuted === 'function' && !e.target.isMuted()) {
+                    const unmuteBtn = document.getElementById('safari-unmute-btn');
+                    if (unmuteBtn) unmuteBtn.remove();
+                  }
                   if (e.data === 0 && socket && state.currentYtTrackId) {
                     socket.emit('table:youtubeEnded', { trackId: state.currentYtTrackId });
                   }
@@ -3123,6 +3138,24 @@ const HTML_PAGE = `<!DOCTYPE html>
     }
 
     document.addEventListener('DOMContentLoaded', init);
+
+    function showSafariUnmuteBtn() {
+      if (document.getElementById('safari-unmute-btn')) return;
+      const btn = document.createElement('button');
+      btn.id = 'safari-unmute-btn';
+      btn.innerHTML = '🔇 แตะเพื่อเปิดเสียงเพลง';
+      btn.style.cssText = 'position:fixed; top:75px; left:50%; transform:translateX(-50%); z-index:9999; background:#ff4757; color:#fff; border:none; padding:10px 20px; border-radius:999px; font-weight:bold; font-size:14px; box-shadow:0 4px 15px rgba(0,0,0,0.4); cursor:pointer;';
+      btn.onclick = function () {
+        if (window._ytTarget) {
+          window._ytTarget.unMute();
+          window._ytTarget.setVolume(typeof state !== 'undefined' && state.ytLocalVolume ? state.ytLocalVolume : 80);
+          window._ytTarget.playVideo();
+        }
+        btn.remove();
+      };
+      document.body.appendChild(btn);
+    }
+    
   </script>
 </body>
 </html>`;
