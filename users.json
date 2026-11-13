@@ -1,0 +1,42 @@
+[
+  {
+    "id": "user_1794505402848_589",
+    "username": "Hyeonminrewrw",
+    "password": "Destiny3009",
+    "moodId": "lonely",
+    "hatId": "sprout",
+    "createdAt": "2026-11-12T17:43:22.848Z"
+  },
+  {
+    "id": "user_1794507701589_624",
+    "username": "Hyeonmin",
+    "password": "Destiny3009",
+    "moodId": "stressed",
+    "hatId": "crown",
+    "createdAt": "2026-11-12T18:21:41.589Z"
+  },
+  {
+    "id": "user_1794564903068_789",
+    "username": "test009",
+    "password": "tesrt12345",
+    "moodId": "sad",
+    "hatId": "beret",
+    "createdAt": "2026-11-13T10:15:03.068Z"
+  },
+  {
+    "id": "user_1794565505324_446",
+    "username": "test008",
+    "password": "test111231",
+    "moodId": "sad",
+    "hatId": "beret",
+    "createdAt": "2026-11-13T10:25:05.324Z"
+  },
+  {
+    "id": "user_1794571065097_914",
+    "username": "test432424",
+    "password": "Destiny3009",
+    "moodId": "sad",
+    "hatId": "beret",
+    "createdAt": "2026-11-13T11:57:45.097Z"
+  }
+]
